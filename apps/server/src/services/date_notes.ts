@@ -78,7 +78,7 @@ function getJournalNoteTitle(
     const monthName = t(MONTH_TRANSLATION_IDS[dateObj.month()]);
 
     // First we give it a numerical value
-    const monthNumber = (dateObj.month() + 1).toString;
+    const monthNumber = (dateObj.month() + 1).toString();
     const weekNum = getWeekInfo(dateObj, getWeekSettings()).weekNumber.toString();
 
     const weekDay = t(WEEKDAY_TRANSLATION_IDS[dateObj.day()]);
