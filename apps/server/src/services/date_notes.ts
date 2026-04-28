@@ -76,6 +76,11 @@ function getJournalNoteTitle(
 
     const pattern = patterns[timeUnit];
     const monthName = t(MONTH_TRANSLATION_IDS[dateObj.month()]);
+
+    // First we give it a numerical value
+    const monthNumber = (dateObj.month() + 1).toString;
+    const weekNum = getWeekInfo(dateObj, getWeekSettings()).weekNumber.toString();
+
     const weekDay = t(WEEKDAY_TRANSLATION_IDS[dateObj.day()]);
     const numberStr = number.toString();
     const ordinalStr = ordinal(dateObj);
@@ -91,8 +96,8 @@ function getJournalNoteTitle(
 
         // Month related
         "{isoMonth}": dateObj.format("YYYY-MM"),
-        "{monthNumber}": numberStr,
-        "{monthNumberPadded}": numberStr.padStart(2, "0"),
+        "{monthNumber}": monthNumber,
+        "{monthNumberPadded}": monthNumber.padStart(2, "0"),
         "{month}": monthName,
         "{shortMonth3}": monthName.slice(0, 3),
         "{shortMonth4}": monthName.slice(0, 4),
@@ -102,10 +107,10 @@ function getJournalNoteTitle(
         "{shortQuarter}": `Q${numberStr}`,
 
         // Week related
-        "{weekNumber}": numberStr,
-        "{weekNumberPadded}": numberStr.padStart(2, "0"),
-        "{shortWeek}": `W${numberStr}`,
-        "{shortWeek3}": `W${numberStr.padStart(2, "0")}`,
+        "{weekNumber}": weekNum,
+        "{weekNumberPadded}": weekNum.padStart(2, "0"),
+        "{shortWeek}": `W${weekNum}`,
+        "{shortWeek3}": `W${weekNum.padStart(2, "0")}`,
 
         // Day related
         "{isoDate}": dateObj.format("YYYY-MM-DD"),
@@ -124,6 +129,10 @@ function getJournalNoteTitle(
         }
         return acc;
     }, {} as Record<string, string>);
+
+    console.log("TEST OUTPUT:", {
+        allowedReplacements
+    });
 
     return Object.entries(allowedReplacements).reduce(
         (title, [ key, value ]) => title.replace(new RegExp(key, "g"), value),
